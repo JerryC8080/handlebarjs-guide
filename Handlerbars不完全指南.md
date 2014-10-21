@@ -80,6 +80,8 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
         <p>Here missing : </p>
     </div>
 
+###完整脚本
+请参考：[Handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/quickStart.html)
 Expressions
 ---
 
