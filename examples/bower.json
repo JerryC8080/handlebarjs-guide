@@ -1,0 +1,23 @@
+{
+  "name": "handlebarsJS Test",
+  "version": "0.0.1",
+  "authors": [
+    "JerryC <huangjerryc@gmail.com>"
+  ],
+  "description": "none",
+  "dependencies": {
+    "jquery": "~1.7.2",
+    "handlebars":"*"
+  },
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

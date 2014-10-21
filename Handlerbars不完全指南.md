@@ -35,7 +35,7 @@ Quick Start
 ###Install
 Handlerbars的安装十分简单，只需要登录[官网](http://handlebarsjs.com/)下载最新的版本，然后嵌入到网页中去。handlebars是一个纯JS库，因此你可以像使用其他JS脚本一样用script标签来包含handlebars.js
 
-	<script type="text/javascript" src=".js/handlebars.js"></script>
+	<script src="bower_components/handlebars/handlebars.js"></script>
 	
 ###Template
 Handlebars expressions 是handlebars模板中最基本的单元，使用方法是加两个花括号`{{value}}`, handlebars模板会自动匹配相应的数值，对象甚至是函数。

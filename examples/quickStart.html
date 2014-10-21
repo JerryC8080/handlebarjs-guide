@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Handlebars Quick Start</title>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+</head>
+<body>
+
+</body>
+
+<!-- Template -->
+<script id="template" type="text/x-handlebars-template">
+    <div class="demo">
+        <h1>Name: {{name}}</h1>
+        <p>Say :{{content}}</p>
+        <p>Here missing : {{content.title}}</p>
+    </div>
+</script>
+
+<script type="text/javascript">
+    //  JSON数据
+    var context = { name: "JerryC", content: "学挖掘机，到蓝翔"};
+
+    //  读取模板
+    var source = $('#template').html();
+
+    //  编译模板
+    var template = Handlebars.compile(source);
+
+    //  装载数据
+    var html = template(context);
+
+    //  操作DOM
+    $('body').html(html);
+</script>
+
+</html>
