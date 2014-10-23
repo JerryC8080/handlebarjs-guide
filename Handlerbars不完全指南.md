@@ -5,20 +5,17 @@ Handlerbars 不完全指南 初稿
 
 ###初级部分
 
-1. Introduction 
-2. Quick Start
-2. Simple Expressions 
-4. Helper
-5. Block Helper
+1. Introduction
+2. Simple Expressions
+3. Helpers
+4. Block Helper
 5. Built-in Helper
-7. Comments
+6. Comments
 
 
 ###高级部分
 
 1. Precompilation
-2. User-Defined Helper
-3. Block Helper
 4. API
 5. Little Sprite（HTML Escaping、Handlerbars jQuery）
 6. Handlebars in nodejs
@@ -86,12 +83,12 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
 
 Expressions
 ---
-### 最简单的表达式
+### Simplest Expressions
 最简单的表达式：`<h1>{{title}}</h1>`
 
 执行的时候，handlebars首先在当前上下文环境中查找叫‘title’的helper，如果helper不存在，然后再查找叫‘title’的值。
 
-### 路径
+### Path
 handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访问，也可以用'../'来访问父级属性。
 	
 	<!-- 以.访问 -->
@@ -119,7 +116,7 @@ handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访
 	
 handlebars处理的时候，会先从当前上下文环境中找到article，再找title
 
-### HTML
+### HTML-Escaping
 
 如果插入的是一堆html，那就需要使用三个大括号`{{{content}}}`,其中的content就是html内容。
 
@@ -127,32 +124,12 @@ handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebar
 
 更多见#[HTML Escaping]()
 
-### 关键词
+### Keyword
 下面的这些是handlebars表达式的关键词，不能作为标识符来使用：
 
 `!` `"` `#` `%` `&` `'` `(` `)` `*` `+` `,` `.` `/` `;` `<` `=` `>` `@` `[` `\` `]` `^` `{` `|` `}` `~` 
 
 例如：`<h1>{{@title}}</h1>`，这样是不允许的。
-
-### Helpers
-Helper是一个简单的handlebars标识符，后面可以跟零个或多个参数（用空格隔开），每个参数都是一个表达式
-
-	<!-- 参数可以为零个 -->
-	{{link}}
-	
-	<!-- 参数可以包含一个或多个 -->
-	{{link story}}
-	
-	<!-- 参数可以是string、boolean、number、object类型，并且可以用path的方式传送 -->
-	{{link "See more..." story.url}}
-	
-	<!-- 参数能以key-value方式接收 -->
-	{{link "See more..." href=story.url class="story"}}
-	
-	<!-- helper支持子表达式的写法 -->
-	{{outer-helper (inner-helper 'abc') 'def'}}
-	
-更多helper的内容，见#[Helper]()
 
 ###Block
 有时候当你需要对某条表达式进行更深入的操作时，Blocks就派上用场了，在Handlebars中，你可以在表达式后面跟随一个#号来表示Blocks，然后通过{{/表达式}}来结束Blocks。 如果当前的表达式是一个数组，则Handlebars会“自动展开数组”，并将Blocks的上下文设为数组中的元素。
@@ -180,8 +157,80 @@ Helper是一个简单的handlebars标识符，后面可以跟零个或多个参�
   		<li>HTML</li>
   		<li>CSS</li>
 	</ul>
+	
 
 Helper
+---
+
+###Helper 概念
+
+
+Helper是一个简单的handlebars标识符，Helper跟函数的概念有点像，因为绑定helper的就是一个回调函数，利用`Handlebars.registerHelper`注册一个helper，然后在`{{helper}}`调用helper进行相关的处理。
+
+
+Handlebars提供一些诸如`if` `unless` `each` `with` `lookup` `log` 内置的helper以外，还允许用户通过`Handlebars.registerHelper`自定义helper。
+
+
+请看下面例子：
+
+JSON数据
+
+	{
+		jerryc:{
+			url : "http://huang-jerryc.com",
+			text: "Bluesun --The personal Blog"
+		}
+	}
+	
+模板
+
+	{{{link jerryc}}}
+	
+注册helper
+
+	Handlebars.registerHelper('link', function(object) {
+  		var url = Handlebars.escapeExpression(object.url),
+      		text = Handlebars.escapeExpression(object.text);
+
+  		return new Handlebars.SafeString(
+    	"<a href='" + url + "'>" + objecttext + "</a>"
+  		);
+	});
+	
+Result
+
+	<a href=‘http://huang-jerryc.com’>Bluesun --The personal Blog</a>
+	
+这个例子中，注册了一个叫`link`的helper，并且绑定了一个回调函数，把`jerryc`对象传到回调函数里面，然后回调函数进行处理后返回一串html代码。
+
+
+###Helper 参数 
+
+Helper后面可以跟零个或多个参数（用空格隔开），每个参数都是一个表达式。
+
+参数的类型可以是string、boolean、number、object或者是key-value的形式，同时也支持路径的方式。
+高级一点，helper还支持子表达式的写法。
+
+	<!-- 参数可以为零个 -->
+	{{link}}
+	
+	<!-- 参数可以包含一个或多个 -->
+	{{link story}}
+	
+	<!-- 参数可以是string、boolean、number、object类型，并且可以用path的方式传送 -->
+	{{link "See more..." story.url}}
+	
+	<!-- 参数能以key-value方式接收 -->
+	{{link "See more..." href=story.url class="story"}}
+	
+	<!-- helper支持子表达式的写法 -->
+	{{outer-helper (inner-helper 'abc') 'def'}}
+	
+更多helper的内容，见#[Helper]()
+
+
+
+Block Helper
 ---
 
 Built-in Helper
