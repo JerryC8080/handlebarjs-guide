@@ -5,27 +5,27 @@ Handlerbars 不完全指南 初稿
 
 ###初级部分
 
-1. 简介
+1. Introduction 
 2. Quick Start
-2. Simple Expressions 	
-2. Path
-3. Block
+2. Simple Expressions 
 4. Helper
-5. 内置Helper
-7. 注释
+5. Block Helper
+5. Built-in Helper
+7. Comments
 
 
 ###高级部分
 
 1. Precompilation
-2. 自定义Helper
+2. User-Defined Helper
 3. Block Helper
 4. API
 5. Little Sprite（HTML Escaping、Handlerbars jQuery）
+6. Handlebars in nodejs
 
 ---
 
-简介
+Introduction
 ---
 **Handlebars**是JavaScript一个语义模板库，通过对view和data的分离来快速构建Web模板。它采用"Logic-less template"（无逻辑模版）的思路，能够在加载时被预编译，而不是到了客户端执行到代码时再去编译， 这样可以保证模板加载和运行的速度。Handlebars兼容Mustache，你可以在Handlebars中导入Mustache模板。
 
@@ -81,7 +81,112 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
     </div>
 
 ###完整脚本
-请参考：[Handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/quickStart.html)
+请参考：[handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/quickStart.html)
+
+
 Expressions
+---
+### 最简单的表达式
+最简单的表达式：`<h1>{{title}}</h1>`
+
+执行的时候，handlebars首先在当前上下文环境中查找叫‘title’的helper，如果helper不存在，然后再查找叫‘title’的值。
+
+### 路径
+handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访问，也可以用'../'来访问父级属性。
+	
+	<!-- 以.访问 -->
+	<h1>{{author.name}}</h1>	// value='JerryC'
+	
+	<!-- 以/访问 -->
+	<h1>{{author/name}}</h1>	// value='JerryC'
+	
+	<!-- 以../访问 -->
+	{{#with author}}
+		<h1>{{../body}}</h1>	// value='学挖掘机，到蓝翔'
+	{{/with}}
+	
+对应JSON数据
+
+	{
+    	title: "My First Blog Post!",
+  		author: {
+    		id: 88,
+    		name: "JerryC"
+  		},
+  		body: "学挖掘机，到蓝翔"  	
+  	};
+  	
+	
+handlebars处理的时候，会先从当前上下文环境中找到article，再找title
+
+### HTML
+
+如果插入的是一堆html，那就需要使用三个大括号`{{{content}}}`,其中的content就是html内容。
+
+handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebars.SafeString`函数来处理。
+
+更多见#[HTML Escaping]()
+
+### 关键词
+下面的这些是handlebars表达式的关键词，不能作为标识符来使用：
+
+`!` `"` `#` `%` `&` `'` `(` `)` `*` `+` `,` `.` `/` `;` `<` `=` `>` `@` `[` `\` `]` `^` `{` `|` `}` `~` 
+
+例如：`<h1>{{@title}}</h1>`，这样是不允许的。
+
+### Helpers
+Helper是一个简单的handlebars标识符，后面可以跟零个或多个参数（用空格隔开），每个参数都是一个表达式
+
+	<!-- 参数可以为零个 -->
+	{{link}}
+	
+	<!-- 参数可以包含一个或多个 -->
+	{{link story}}
+	
+	<!-- 参数可以是string、boolean、number、object类型，并且可以用path的方式传送 -->
+	{{link "See more..." story.url}}
+	
+	<!-- 参数能以key-value方式接收 -->
+	{{link "See more..." href=story.url class="story"}}
+	
+	<!-- helper支持子表达式的写法 -->
+	{{outer-helper (inner-helper 'abc') 'def'}}
+	
+更多helper的内容，见#[Helper]()
+
+###Block
+有时候当你需要对某条表达式进行更深入的操作时，Blocks就派上用场了，在Handlebars中，你可以在表达式后面跟随一个#号来表示Blocks，然后通过{{/表达式}}来结束Blocks。 如果当前的表达式是一个数组，则Handlebars会“自动展开数组”，并将Blocks的上下文设为数组中的元素。
+
+	<ul>
+	{{#programme}}
+    	<li>{{language}}</li>
+	{{/programme}}
+	</ul>
+	
+有以下json数据
+
+	{
+  		programme: [
+    		{language: "JavaScript"},
+    		{language: "HTML"},
+    		{language: "CSS"}
+  		]
+	}
+	
+编译模板代码同上…… 上面的代码会自动匹配programme数据并展开数据，渲染DOM后就是这样的
+
+	<ul>
+  		<li>JavaScript</li>
+  		<li>HTML</li>
+  		<li>CSS</li>
+	</ul>
+
+Helper
+---
+
+Built-in Helper
+---
+
+Comments
 ---
 
