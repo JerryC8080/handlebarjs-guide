@@ -9,27 +9,28 @@
 <body>
     <div class="demo">
         <ul>
-            <li class=""></li>
         </ul>
     </div>
 </body>
 
+<script id="tmp_1" type="text/x-handlebars-template">
+    <li class="tmp_1">
+        <p>只有一个参数：{{#link jerryc}}{{/link}}</p>
+    </li>
+</script>
 <script type="text/javascript">
-
-    var htmlTmp_li = '<li></li>';
-    var $li = $(htmlTmp_li);
-    var $ul = $('.demo ul');
-
     /*
     * 一个参数
     * */
-    //  模板
-    var template_1 = '{{{link jerryc}}}';
+
+    //  获取模版
+    var template_1 = $("#tmp_1").html();
     //  Helper
-    Handlebars.registerHelper('link', function(object) {
+    Handlebars.registerHelper('link', function(object,option) {
         var url = Handlebars.escapeExpression(object.url),
                 text = Handlebars.escapeExpression(object.text);
-
+        console.log(option);
+        //console.log(option.fn);
         return new Handlebars.SafeString(
                         "<a href='" + url + "'>" + object.text + "</a>"
         );
@@ -41,11 +42,9 @@
             text: "Bluesun --The personal Blog"
         }
     };
-
     //  编译+装载数据
     var result_1 = Handlebars.compile(template_1)(data_1);
-
-    $li.html(result_1).appendTo($ul);
+    $(result_1).appendTo($('.demo ul'));
 
 </script>
 

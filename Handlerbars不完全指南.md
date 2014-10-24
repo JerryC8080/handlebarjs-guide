@@ -228,7 +228,49 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	
 更多helper的内容，见#[Helper]()
 
+###registerHelper()
+`registerHelper()`是`Handlebars`其中的一个函数，能够注册一个或多个helper，作用于所有的模版。
 
+注册一个helper的写法：
+
+	Handlebars.registerHelper('foo', function() {});
+	
+注册多个helper的写法：
+
+	Handlebars.registerHelper({
+  		foo: function() {},
+  		bar: function() {}
+	});
+	
+###registerHelper()的回调函数
+
+`registerHelper()`的回调函数支持两个参数：
+
+	Handlebars.registerHelper('foo', function(object,option) {});
+
+`object`就是模版对应的对象，没什么好说的。
+
+重点在`option`，它会根据helper的类型而不同。如果是普通的helper，`option`的结构是这样的：
+
+	option:{
+		data:Object,	//  存放数据，其实就是回调函数的第一个参数object
+		hash:Object,	//	hash列表，如果模板中调用helper的时候，传了key-value的参数，就会存到这里来
+		name:'foo'		//	helper的名称
+	}
+	
+对应的模版：`{{foo object}}`
+
+如果是block helper，`option`的结构是这样的：
+
+	option:{
+		data:Object,		//  存放数据，其实就是回调函数的第一个参数object
+		hash:Object,		//	hash列表，如果模板中调用helper的时候，传了key-value的参数，就会存到这里来
+		name:'foo'			//	helper的名称
+		fn:funtion,			//	fn函数就像Handlebars.compile()函数一样，提供一个数据，返回一串字符串。
+		inverse:function	//	目前还不知道什么用途
+	}
+	
+对应的模版：`{{#foo object}}{{/foo}}`
 
 Block Helper
 ---
