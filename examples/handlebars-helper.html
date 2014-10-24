@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Handlebars Quick Start</title>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
+</head>
+<body>
+    <div class="demo">
+        <ul>
+            <li class=""></li>
+        </ul>
+    </div>
+</body>
+
+<script type="text/javascript">
+
+    var htmlTmp_li = '<li></li>';
+    var $li = $(htmlTmp_li);
+    var $ul = $('.demo ul');
+
+    /*
+    * 一个参数
+    * */
+    //  模板
+    var template_1 = '{{{link jerryc}}}';
+    //  Helper
+    Handlebars.registerHelper('link', function(object) {
+        var url = Handlebars.escapeExpression(object.url),
+                text = Handlebars.escapeExpression(object.text);
+
+        return new Handlebars.SafeString(
+                        "<a href='" + url + "'>" + object.text + "</a>"
+        );
+    });
+    //  数据
+    var data_1 = {
+        jerryc:{
+            url : "http://huang-jerryc.com",
+            text: "Bluesun --The personal Blog"
+        }
+    };
+
+    //  编译+装载数据
+    var result_1 = Handlebars.compile(template_1)(data_1);
+
+    $li.html(result_1).appendTo($ul);
+
+</script>
+
+</html>
