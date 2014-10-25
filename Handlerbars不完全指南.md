@@ -226,7 +226,6 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	<!-- helper支持子表达式的写法 -->
 	{{outer-helper (inner-helper 'abc') 'def'}}
 	
-更多helper的内容，见#[Helper]()
 
 ###registerHelper()
 `registerHelper()`是`Handlebars`其中的一个函数，能够注册一个或多个helper，作用于所有的模版。
@@ -248,9 +247,9 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 
 	Handlebars.registerHelper('foo', function(object,option) {});
 
-`object`就是模版对应的对象，没什么好说的。
+`object`就是模版对应的对象，没什么好说的。重点在`option`，它会根据helper的类型而不同。
 
-重点在`option`，它会根据helper的类型而不同。如果是普通的helper，`option`的结构是这样的：
+如果是**普通的helper**，`option`的结构是这样的：
 
 	option:{
 		data:Object,	//  存放数据，其实就是回调函数的第一个参数object
@@ -260,7 +259,7 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	
 对应的模版：`{{foo object}}`
 
-如果是block helper，`option`的结构是这样的：
+如果是**block helper**，`option`的结构是这样的：
 
 	option:{
 		data:Object,		//  存放数据，其实就是回调函数的第一个参数object

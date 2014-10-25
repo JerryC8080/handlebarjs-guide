@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4a4cd65c-0449-4574-9ea9-bfe212d2b231" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Handlerbars不完全指南.md" afterPath="$PROJECT_DIR$/Handlerbars不完全指南.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/handlebars-helper.html" afterPath="$PROJECT_DIR$/examples/handlebars-helper.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="handlebarjs-guide.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +28,7 @@
       <file leaf-file-name="handlebars-helper.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/examples/handlebars-helper.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23713927" vertical-offset="134" max-vertical-offset="1064">
+            <state vertical-scroll-proportion="0.07026349" vertical-offset="267" max-vertical-offset="1064">
               <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
               <folding />
             </state>
@@ -287,7 +285,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/handlebars-helper.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23713927" vertical-offset="134" max-vertical-offset="1064">
+        <state vertical-scroll-proportion="0.07026349" vertical-offset="267" max-vertical-offset="1064">
           <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
           <folding />
         </state>
