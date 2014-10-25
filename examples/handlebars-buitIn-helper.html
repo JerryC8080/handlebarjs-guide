@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Buit-in Helper</title>
+
+</head>
+<body>
+</body>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/handlebars/handlebars.js"></script>
+<script id="template" type="text/x-handlebars-template">
+    <div class="ifelse-helper">
+        <h1>If-else Helper:</h1>
+        {{#if list}}
+        <ul id="list">
+            {{#each list}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        {{else}}
+            <p>{{error}}</p>
+        {{/if}}
+    </div>
+    <hr/>
+    <div class="unless-helper">
+        <h1>Unless Helper:</h1>
+        {{#unless license}}
+            <p>WARNING: 这里没有license</p>
+        {{/unless}}
+    </div>
+    <hr/>
+    <div class="each-helper">
+        <h1>Each Helper:</h1>
+        <ul>
+            {{#each name}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
+    <hr/>
+    <div class="with-helper">
+        <h1>With Helper:</h1>
+        {{#with author}}
+            <p>By {{firstName}} {{lastName}}</p>
+        {{else}}
+            <p>Author 被狗吃了</p>
+        {{/with}}
+    </div>
+    <hr/>
+    <div class="lookup-helper">
+        <h1>Lookup Helper:</h1>
+        {{#each name}}
+            {{lookup this @index}}
+            <p>this:{{this}}</p>
+        {{/each}}
+
+    </div>
+    <hr/>
+
+</script>
+<script type="text/javascript">
+    var data = {
+        list:['HTML5','CSS3',"WebGL"],
+        "error":"数据取出错误",
+        license:false,
+        name: ["Jerry","Jason","David"],
+        author: {
+            firstName: "Huang",
+            lastName: "JerryC"
+        }
+    };
+    var template = Handlebars.compile($('#template').html());
+    var html = template(data);
+    $('body').html(html);
+</script>
+</html>

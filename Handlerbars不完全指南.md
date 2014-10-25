@@ -6,11 +6,9 @@ Handlerbars 不完全指南 初稿
 ###初级部分
 
 1. Introduction
-2. Simple Expressions
+2. Expressions
 3. Helpers
-4. Block Helper
-5. Built-in Helper
-6. Comments
+4. Built-in Helper
 
 
 ###高级部分
@@ -114,7 +112,6 @@ handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访
   	};
   	
 	
-handlebars处理的时候，会先从当前上下文环境中找到article，再找title
 
 ### HTML-Escaping
 
@@ -130,6 +127,12 @@ handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebar
 `!` `"` `#` `%` `&` `'` `(` `)` `*` `+` `,` `.` `/` `;` `<` `=` `>` `@` `[` `\` `]` `^` `{` `|` `}` `~` 
 
 例如：`<h1>{{@title}}</h1>`，这样是不允许的。
+
+### Comments
+Handlebars的注释写法有两个：
+
+	{{! handlebars comments }}
+	{{!-- handlebars comments --}}
 
 ###Block
 有时候当你需要对某条表达式进行更深入的操作时，Blocks就派上用场了，在Handlebars中，你可以在表达式后面跟随一个#号来表示Blocks，然后通过{{/表达式}}来结束Blocks。 如果当前的表达式是一个数组，则Handlebars会“自动展开数组”，并将Blocks的上下文设为数组中的元素。
@@ -168,7 +171,7 @@ Helper
 Helper是一个简单的handlebars标识符，Helper跟函数的概念有点像，因为绑定helper的就是一个回调函数，利用`Handlebars.registerHelper`注册一个helper，然后在`{{helper}}`调用helper进行相关的处理。
 
 
-Handlebars提供一些诸如`if` `unless` `each` `with` `lookup` `log` 内置的helper以外，还允许用户通过`Handlebars.registerHelper`自定义helper。
+Handlebars提供一些诸如`if` `unless` `each` `with` `lookup` `log` 内置的helper以外，还允许用户通过`Handlebars.registerHelper()`自定义helper。
 
 
 请看下面例子：
@@ -226,7 +229,30 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	<!-- helper支持子表达式的写法 -->
 	{{outer-helper (inner-helper 'abc') 'def'}}
 	
+###Block Helper
+名符其实，是结合了block语法的helper。形如：
 
+	{{#link jerryc}}
+		<p>url:{{url}}</p>
+		<p>text:{{text}}</p>
+	{{/link}}
+
+写功能的时候，block helper和普通得helper是有一些不一样的地方的：
+
+	Handlebars.registerHelper('link', function(object,option) {
+        return option.fn(this);	
+    });
+    
+结果是：
+
+	<p>url:http://huang-jerryc.com</p>
+	<p>text:Bluesun --The personal Blog</p>
+    
+`option.fn()`就像Handlebars.compile()函数一样，提供一个数据，返回一串字符串。
+
+而`this`，是当前的上下文环境，换句话说就是传进来的数据`jerryc`
+
+    
 ###registerHelper()
 `registerHelper()`是`Handlebars`其中的一个函数，能够注册一个或多个helper，作用于所有的模版。
 
@@ -271,12 +297,95 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	
 对应的模版：`{{#foo object}}{{/foo}}`
 
-Block Helper
----
+
 
 Built-in Helper
 ---
 
-Comments
----
+###if helper
+`{{#if}}`就你使用JavaScript一样，你可以指定条件渲染DOM，如果它的参数返回`false`，`undefined`, `null`, `""` 或者 `[]` (一个错误的值), Handlebar将不会渲染DOM，如果存在{{#else}}则执行{{#else}}后面的渲染 例如：
+
+	{{#if list}}
+		<ul id="list">
+    		{{#each list}}
+        		<li>{{this}}</li>
+    		{{/each}}
+		</ul>
+	{{else}}
+    	<p>{{error}}</p>
+	{{/if}}
+对应适用json数据
+
+	var data = {
+    	list:['HTML5','CSS3',"WebGL"],
+   		"error":"数据取出错误"
+	}
+	
+这里`{{#if}}`判断是否存在list数组，如果存在则遍历list，如果不存在输出错误信息。
+
+###unless helper
+`{{#unless}}`这个语法是反向的if语法也就是当判断的值为false时他会渲染DOM 例如：
+
+	<div class="entry">
+		{{#unless license}}
+  			<h3 class="warning">WARNING: This entry does not have a license!</h3>
+  		{{/unless}}
+	</div>
+
+如果`license`返回一个错误的值，那么Handlebars就会渲染这个模板，结果会是：
+
+	<div class="entry">
+  		<h3 class="warning">WARNING: This entry does not have a license!</h3>
+	</div>
+
+###each helper
+你可以使用内置的{{#each}} helper遍历列表块内容，用this来引用遍历的元素 例如：
+
+	<ul>
+    	{{#each name}}
+        	<li>{{this}}</li>
+    	{{/each}}
+	</ul>
+对应适用的json数据
+
+	{
+    	name: ["html","css","javascript"]
+	};
+	
+这里的`this`指的是数组里的每一项元素，和上面的Block很像，但原理是不一样的这里的name是数组，而内置的each就是为了遍历数组用的，更复杂的数据也同样适用。
+
+###with helper
+`{{#with}}`一般情况下，Handlebars模板会在编译的阶段的时候进行context传递和赋值。使用with的方法，我们可以将context转移到数据的一个section里面（如果你的数据包含section）。 这个方法在操作复杂的template时候非常有用。
+
+	<div class="entry">
+  		<h1>{{title}}</h1>
+  		{{#with author}}
+  			<h2>By {{firstName}} {{lastName}}</h2>
+  		{{/with}}
+	</div>
+
+对应适用json数据
+
+	{
+  		title: "My first post!",
+  		author: {
+    		firstName: "Charles",
+    		lastName: "Jolley"
+  		}
+	}
+	
+另外，`{{with}}`也可以嵌套`{{else}}`使用：
+
+	{{#with author}}
+  		<p>{{name}}</p>
+	{{else}}
+ 		<p class="empty">No content</p>
+	{{/with}}
+
+
+###lookup helper
+###log helper
+###blockHelperMissing helper
+###helperMissing helper
+
 
