@@ -464,7 +464,4 @@ lookup配合each有一种巧妙的用法，可以遍历数组，输出数组的�
 目前我用的Handlebars版本：`v2.0.0`
 
 
-###blockHelperMissing helper
-###helperMissing helper
-
 
