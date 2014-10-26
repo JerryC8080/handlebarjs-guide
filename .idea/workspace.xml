@@ -4,7 +4,6 @@
     <list default="true" id="4a4cd65c-0449-4574-9ea9-bfe212d2b231" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Handlerbars不完全指南.md" afterPath="$PROJECT_DIR$/Handlerbars不完全指南.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/handlebars-buitIn-helper.html" afterPath="$PROJECT_DIR$/examples/handlebars-buitIn-helper.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="handlebarjs-guide.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,21 +36,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="handlebars-buitIn-helper.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="handlebars-buitIn-helper.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/examples/handlebars-buitIn-helper.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.5" vertical-offset="0" max-vertical-offset="1365">
-              <caret line="65" column="46" selection-start-line="65" selection-start-column="46" selection-end-line="65" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.38064516" vertical-offset="560" max-vertical-offset="1380">
+              <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="handlebars.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="handlebars.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/examples/bower_components/handlebars/handlebars.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="6.0114503" vertical-offset="0" max-vertical-offset="44985">
-              <caret line="401" column="49" selection-start-line="401" selection-start-column="49" selection-end-line="401" selection-end-column="49" />
+            <state vertical-scroll-proportion="-15.576923" vertical-offset="0" max-vertical-offset="44985">
+              <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#8278#9790#0" expanded="false" />
@@ -79,8 +78,8 @@
         <option value="$PROJECT_DIR$/examples/bower_components/handlebars-helper.js" />
         <option value="$PROJECT_DIR$/examples/handlebars-quick-start.html" />
         <option value="$PROJECT_DIR$/examples/handlebars-helper.html" />
-        <option value="$PROJECT_DIR$/examples/handlebars-buitIn-helper.html" />
         <option value="$PROJECT_DIR$/examples/bower_components/handlebars/handlebars.js" />
+        <option value="$PROJECT_DIR$/examples/handlebars-buitIn-helper.html" />
       </list>
     </option>
   </component>
@@ -352,18 +351,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/handlebars-buitIn-helper.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.5" vertical-offset="0" max-vertical-offset="1365">
-          <caret line="65" column="46" selection-start-line="65" selection-start-column="46" selection-end-line="65" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/bower_components/handlebars/handlebars.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.0114503" vertical-offset="0" max-vertical-offset="44985">
-          <caret line="401" column="49" selection-start-line="401" selection-start-column="49" selection-end-line="401" selection-end-column="49" />
+        <state vertical-scroll-proportion="-15.576923" vertical-offset="0" max-vertical-offset="44985">
+          <caret line="27" column="27" selection-start-line="27" selection-start-column="27" selection-end-line="27" selection-end-column="27" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#8278#9790#0" expanded="false" />
@@ -371,6 +362,14 @@
             <element signature="e#10503#10635#0" expanded="false" />
             <element signature="e#10702#11169#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/handlebars-buitIn-helper.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38064516" vertical-offset="560" max-vertical-offset="1380">
+          <caret line="57" column="17" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

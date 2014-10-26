@@ -5,10 +5,28 @@ Handlerbars 不完全指南 初稿
 
 ###初级部分
 
-1. Introduction
-2. Expressions
-3. Helpers
-4. Built-in Helper
+1. [Introduction](#introduction)
+2. [Quick Start](#quick-start)
+2. [Expressions](#expressions)
+	* Simplest Expression 
+	* Path
+	* HTML-Escaping
+	* Keyword
+	* Comments
+	* Block
+3. [Helpers](#helper)
+	* Helper 概念
+	* Helper 参数
+	* Block Helper
+	* registerHelper()
+	* registerHelper()的回调函数
+4. [Built-in Helper](##built-in-helper)
+	* if helper
+	* unless helper
+	* each helper
+	* with helper
+	* lookup helper
+	* log helper
 
 
 ###高级部分
@@ -47,7 +65,7 @@ Handlebars expressions 是handlebars模板中最基本的单元，使用方法�
     </script>
 	
 ###Data
-Handlebars会根据上下文来自动对表达式进行匹配，如果匹配项是个变量，则会输出变量的值，如果匹配项是个函数，则函数会被调用。 如果没找到匹配项，则没有输出。
+Handlebars会根据上下文来自动对表达式进行匹配，如果匹配项是个变量，则会输出变量的值，如果匹配项是个Helper，则Helper会被调用。 如果没找到匹配项，则没有输出。
 
 Handlebars 支持JSON格式的数据，准备以下测试数据：
 
@@ -56,7 +74,7 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
 
 
 ###Compile and Execute
-我们需要获取模板，然后用`Handlebars.compile`进行编译：
+我们需要获取模板，然后用`Handlebars.compile()`进行编译：
 
     //  读取模板
     var source = $('#template').html();
@@ -117,7 +135,7 @@ handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访
 
 如果插入的是一堆html，那就需要使用三个大括号`{{{content}}}`,其中的content就是html内容。
 
-handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebars.SafeString`函数来处理。
+handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebars.SafeString()`函数来处理。
 
 更多见#[HTML Escaping]()
 
@@ -131,8 +149,8 @@ handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebar
 ### Comments
 Handlebars的注释写法有两个：
 
-	{{! handlebars comments }}
-	{{!-- handlebars comments --}}
+	{{! handlebars comments }}			//	用于一行的注释
+	{{!-- handlebars comments --}}		//	用于块级的注释
 
 ###Block
 有时候当你需要对某条表达式进行更深入的操作时，Blocks就派上用场了，在Handlebars中，你可以在表达式后面跟随一个#号来表示Blocks，然后通过{{/表达式}}来结束Blocks。 如果当前的表达式是一个数组，则Handlebars会“自动展开数组”，并将Blocks的上下文设为数组中的元素。
@@ -168,7 +186,7 @@ Helper
 ###Helper 概念
 
 
-Helper是一个简单的handlebars标识符，Helper跟函数的概念有点像，因为绑定helper的就是一个回调函数，利用`Handlebars.registerHelper`注册一个helper，然后在`{{helper}}`调用helper进行相关的处理。
+Helper是一个简单的handlebars标识符，Helper跟函数的概念有点像，因为绑定helper的就是一个回调函数，利用`Handlebars.registerHelper()`注册一个helper，然后在`{{helper}}`调用helper进行相关的处理。
 
 
 Handlebars提供一些诸如`if` `unless` `each` `with` `lookup` `log` 内置的helper以外，还允许用户通过`Handlebars.registerHelper()`自定义helper。
@@ -248,7 +266,7 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	<p>url:http://huang-jerryc.com</p>
 	<p>text:Bluesun --The personal Blog</p>
     
-`option.fn()`就像Handlebars.compile()函数一样，提供一个数据，返回一串字符串。
+`option.fn()`就像`Handlebars.compile()`函数一样，提供一个数据，返回一串字符串。
 
 而`this`，是当前的上下文环境，换句话说就是传进来的数据`jerryc`
 
@@ -303,7 +321,7 @@ Built-in Helper
 ---
 
 ###if helper
-`{{#if}}`就你使用JavaScript一样，你可以指定条件渲染DOM，如果它的参数返回`false`，`undefined`, `null`, `""` 或者 `[]` (一个错误的值), Handlebar将不会渲染DOM，如果存在{{#else}}则执行{{#else}}后面的渲染 例如：
+`{{#if}}`就你使用JavaScript一样，你可以指定条件渲染DOM，如果它的参数返回`false`，`undefined`, `null`, `""` 或者 `[]` (一个错误的值), Handlebar将不会渲染DOM，如果存在`{{else}}`则执行`{{else}}`后面的渲染 例如：
 
 	{{#if list}}
 		<ul id="list">
@@ -318,7 +336,7 @@ Built-in Helper
 
 	var data = {
     	list:['HTML5','CSS3',"WebGL"],
-   		"error":"数据取出错误"
+   		error:"数据取出错误"
 	}
 	
 这里`{{#if}}`判断是否存在list数组，如果存在则遍历list，如果不存在输出错误信息。
@@ -339,7 +357,7 @@ Built-in Helper
 	</div>
 
 ###each helper
-你可以使用内置的{{#each}} helper遍历列表块内容，用this来引用遍历的元素 例如：
+你可以使用内置的each helper遍历列表块内容，用this来引用遍历的元素 例如：
 
 	<ul>
     	{{#each name}}
@@ -406,6 +424,7 @@ lookup中文翻译是查找的意思，效果是在给定的父项中查找一�
 那么：
 
 	{{lookup author 'firstName'}}	//	Charles
+	{{lookup author 0}}				//	null
 	{{lookup skill 'HMLT5'}}		//	null
 	{{lookup skill 0}}				//	HTML5
 	{{lookup this title}}			//	My first post!
