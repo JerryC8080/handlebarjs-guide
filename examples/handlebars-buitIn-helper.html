@@ -50,19 +50,28 @@
     <hr/>
     <div class="lookup-helper">
         <h1>Lookup Helper:</h1>
-        {{#each name}}
-            {{lookup this @index}}
-            <p>this:{{this}}</p>
+        <p>author['firstName']:{{lookup author 'firstName'}}</p>
+        <p>list['HTML5']:{{lookup list 'HTML5'}}</p>
+        <p>list[0]:{{lookup list 0}}</p>
+        <p>this['title']:{{lookup this 'title'}}</p>
+        <p>list :
+        {{#each list}}
+            {{lookup ../list @index}}
         {{/each}}
-
+        </p>
     </div>
     <hr/>
-
+    <div class="log-helper">
+        <h1>Log Helper:</h1>
+        <p>Log : {{log 'This is a log message'}}</p>
+    </div>
+    <hr/>
 </script>
 <script type="text/javascript">
     var data = {
+        title: "My first post!",
         list:['HTML5','CSS3',"WebGL"],
-        "error":"数据取出错误",
+        error:"数据取出错误",
         license:false,
         name: ["Jerry","Jason","David"],
         author: {

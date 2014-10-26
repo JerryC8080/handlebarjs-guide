@@ -384,7 +384,86 @@ Built-in Helper
 
 
 ###lookup helper
+lookup中文翻译是查找的意思，效果是在给定的父项中查找一个子项，看lookup helper的源码：
+
+    instance.registerHelper('lookup', function(obj, field) {
+      return obj && obj[field];
+    });
+    
+根据javascript的&&(逻辑与)运算规则，如果obj不存在，则返回false，如果obj存在，就判断obj[field]是否存在，如果存在就返回obj[field]的值，否则返回false。
+    
+上个例子看一下会更清楚，给定这么一个json数据：
+
+	{
+  		title: "My first post!",
+  		author: {
+    		firstName: "Charles",
+    		lastName: "Jolley"
+  		},
+  		skill:['HTML5','CSS3','Javascript']
+	}
+	
+那么：
+
+	{{lookup author 'firstName'}}	//	Charles
+	{{lookup skill 'HMLT5'}}		//	null
+	{{lookup skill 0}}				//	HTML5
+	{{lookup this title}}			//	My first post!
+	
+lookup配合each有一种巧妙的用法，可以遍历数组，输出数组的值：
+
+	{{#each skill}}
+		{{lookup ../skill @index}}、	//	@index是skill的索引
+	{{/each}}
+	
+结果是：`HTML5、CSS3、Javascript、`
+
+
 ###log helper
+这个log helper很奇怪，我按照官方的做法：
+
+	{{log 'Look up me!'}}
+
+但是没什么用。
+
+去查看log helper的源码：
+
+    instance.registerHelper('log', function(message, options) {
+      var level = options.data && options.data.level != null ? parseInt(options.data.level, 10) : 1;
+      instance.log(level, message);
+    });
+    
+这个instance.log()方法何许人也？寻找它的真相(387行)：
+
+  	var logger = {
+    	methodMap: { 0: 'debug', 1: 'info', 2: 'warn', 3: 'error' },
+
+    	// State enum
+    	DEBUG: 0,
+    	INFO: 1,
+    	WARN: 2,
+    	ERROR: 3,
+    	level: 3,
+
+    	// can be overridden in the host environment
+    	log: function(level, message) {
+    	  if (logger.level <= level) {
+    	    var method = logger.methodMap[level];
+    	    if (typeof console !== 'undefined' && console[method]) {
+    	      console[method].call(console, message);
+    	    }
+    	  }
+    	}
+  	};
+  	__exports__.logger = logger;
+  	var log = logger.log;
+  	__exports__.log = log;
+  	
+`log()`的处理估计是想调用`console`来输出信息，但是注意看`if (logger.level <= level) `，在这里`logger.level=3`，而根据`log()`的源码来看，`level`应该是在`[0,3]`这个区间内才能有效。所以第一个if里面的代码是不是永远都运行不到？我把if判断语句改成了`if (logger.level >= level) `，然后log helper就正常运行了，也许这是Handlebars得一个bug，我向作者提交[issue](https://github.com/wycats/handlebars.js/issues/888)了，看后续会怎么样。
+
+目前我用的Handlebars版本：`v2.0.0`
+
+
 ###blockHelperMissing helper
 ###helperMissing helper
 
