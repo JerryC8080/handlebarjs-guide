@@ -14,13 +14,13 @@ Handlerbars 不完全指南 初稿
 	* Keyword
 	* Comments
 	* Block
-3. [Helpers](#helper)
+3. [Helper](#helper)
 	* Helper 概念
 	* Helper 参数
 	* Block Helper
 	* registerHelper()
 	* registerHelper()的回调函数
-4. [Built-in Helper](##built-in-helper)
+4. [Built-in Helper](#built-in-helper)
 	* if helper
 	* unless helper
 	* each helper
@@ -94,7 +94,7 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
     </div>
 
 ###完整脚本
-请参考：[handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/quickStart.html)
+请参考：[handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-quick.start.html)
 
 
 Expressions
@@ -315,7 +315,8 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	
 对应的模版：`{{#foo object}}{{/foo}}`
 
-
+###完整脚本
+请参考：[handlebars-helper.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-helper.html)
 
 Built-in Helper
 ---
@@ -478,9 +479,46 @@ lookup配合each有一种巧妙的用法，可以遍历数组，输出数组的�
   	var log = logger.log;
   	__exports__.log = log;
   	
-`log()`的处理估计是想调用`console`来输出信息，但是注意看`if (logger.level <= level) `，在这里`logger.level=3`，而根据`log()`的源码来看，`level`应该是在`[0,3]`这个区间内才能有效。所以第一个if里面的代码是不是永远都运行不到？我把if判断语句改成了`if (logger.level >= level) `，然后log helper就正常运行了，也许这是Handlebars得一个bug，我向作者提交[issue](https://github.com/wycats/handlebars.js/issues/888)了，看后续会怎么样。
+官方文档没有写明怎么用，在跟Handlebars的开发者沟通之后（[issue](https://github.com/wycats/handlebars.js/issues/888)），终于知道了怎么用。
 
-目前我用的Handlebars版本：`v2.0.0`
+如果要用到log helper的话，需要添加这样的代码：`Handlebars.logger.level = Handlebars.logger.INFO`，这样log helper就会输出`ERROR`、`WARN`、`INFO`的信息了，默认是输出`ERROR`信息的。
 
+###完整脚本
+请参考：[handlebars-builtin-helper.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-builtin-helper.html)
 
+Precompilation
+---
+Handlebars允许把模版编译这一工作预先执行，减少客户端的压力。使用预编译是需要npm和node环境的，以下教程是在安装了npm和node环境的前提。
 
+###全局安装Handlebars
+
+	$ npm install handlebars -g
+
+###预编译Template
+
+	$ handlebars <input> -f <output>
+	
+###Example
+
+我们新建一个Handlebars后缀的文件(helloworld.handlebars):
+
+helloworld.handlebars:
+	
+	<div>
+    	<h1>{{title}}</h1>
+    	<p>Handlebars precompile example</p>
+    	<p>Hello World!!!</p>
+	</div>
+	
+预编译helloworld.handlebars：
+
+	$ handlebars helloworld.handlebars -f helloworld.js
+	
+在html中引入helloworld.js文件(在Handlebars.js之后)：
+	
+	<script src="helloworld.js"></script>
+	
+然后我们就可以用`Handlebars.templates['helloworld']`或者`Handlebars.templates.helloworld`访问我们编译好的模板了。
+
+###完整脚本
+请参考：[handlebars-precompiled.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-precompiled.html)

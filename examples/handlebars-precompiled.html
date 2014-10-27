@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Precompiled</title>
+</head>
+<body>
+</body>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/handlebars/handlebars.js"></script>
+<script src="helloworld.js"></script>
+
+<script type="text/javascript">
+    var template = Handlebars.templates['helloworld'];
+    var data = {
+        title:'This is a precompiled example.'
+    };
+    var html = template(data);
+    $('body').html(html);
+</script>

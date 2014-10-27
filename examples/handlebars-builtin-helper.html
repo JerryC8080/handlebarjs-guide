@@ -81,6 +81,7 @@
         }
     };
     var template = Handlebars.compile($('#template').html());
+    Handlebars.logger.level = Handlebars.logger.INFO;   //  配置Handlebars logger 的level
     var html = template(data);
     $('body').html(html);
 </script>
