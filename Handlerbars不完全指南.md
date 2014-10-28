@@ -254,7 +254,7 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	<!-- helper支持子表达式的写法 -->
 	{{outer-helper (inner-helper 'abc') 'def'}}
 	
-例子：[handlebars-precompiled.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-precompiled.html)
+例子：[handlebars-helper-parameters.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-helper-parameters.html)
 	
 ###Block Helper
 名符其实，是结合了block语法的helper。形如：
