@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Helper Parameters</title>
+</head>
+<body>
+</body>
+<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/handlebars/handlebars.js"></script>
+
+<!-- Template -->
+<script id="template" type="text/x-handlebars-template">
+    <p>simpleHelper:{{simpleHelper title}}</p>
+    <p>blockHelper:{{#blockHelper story}}{{content}}{{/blockHelper}}</p>
+</script>
+
+<script type="text/javascript">
+
+    Handlebars.registerHelper('simpleHelper',function(object,option){
+        //  这里输出这两个对象，请到浏览器的开发者工具的控制台查看
+        console.log('========= Here is simpleHelper =========');
+        console.log(object);
+        console.log(option);
+        console.log('========================================');
+        return object;
+    });
+    Handlebars.registerHelper('blockHelper',function(object,option){
+        //  这里输出这两个对象，请到浏览器的开发者工具的控制台查看
+        console.log('========= Here is blockHelper =========');
+        console.log(object);
+        console.log(option);
+        console.log('========================================');
+        return option.fn(object);
+    });
+    var data = {
+        title:'Helper Parameters Example',
+        story:{
+            content:'This just is a story',
+            url:'http://www.baidu.com'
+        }
+    };
+    var templpate = Handlebars.compile($('#template').html());
+    var html = templpate(data);
+    $('body').html(html);
+</script>

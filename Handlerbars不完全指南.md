@@ -94,7 +94,7 @@ Handlebars 支持JSON格式的数据，准备以下测试数据：
     </div>
 
 ###完整脚本
-请参考：[handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-quick.start.html)
+请参考：[handlebars-quick-start.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-quick-start.html)
 
 
 Expressions
@@ -135,9 +135,16 @@ handlebars同时支持以'.'分隔的路径访问和以‘/’分隔的路径访
 
 如果插入的是一堆html，那就需要使用三个大括号`{{{content}}}`,其中的content就是html内容。
 
-handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebars.SafeString()`函数来处理。
+handlebars除了提供`{{{}}}`形式来填充html之外，也提供了`Handlebars.SafeString()`函数来处理：
 
-更多见#[HTML Escaping]()
+	Handlebars.registerHelper('link', function(object) {
+  		var url = Handlebars.escapeExpression(object.url),
+      		text = Handlebars.escapeExpression(object.text);
+
+  		return new Handlebars.SafeString(
+    	"<a href='" + url + "'>" + objecttext + "</a>"
+  		);
+	});
 
 ### Keyword
 下面的这些是handlebars表达式的关键词，不能作为标识符来使用：
@@ -247,6 +254,8 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	<!-- helper支持子表达式的写法 -->
 	{{outer-helper (inner-helper 'abc') 'def'}}
 	
+例子：[handlebars-precompiled.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-precompiled.html)
+	
 ###Block Helper
 名符其实，是结合了block语法的helper。形如：
 
@@ -315,14 +324,13 @@ Helper后面可以跟零个或多个参数（用空格隔开），每个参数�
 	
 对应的模版：`{{#foo object}}{{/foo}}`
 
-###完整脚本
-请参考：[handlebars-helper.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-helper.html)
+例子：[handlebars-helper-registerHelper.html](https://github.com/JerryC8080/handlebarjs-guide/blob/master/examples/handlebars-helper-registerHelper.html)
 
 Built-in Helper
 ---
 
 ###if helper
-`{{#if}}`就你使用JavaScript一样，你可以指定条件渲染DOM，如果它的参数返回`false`，`undefined`, `null`, `""` 或者 `[]` (一个错误的值), Handlebar将不会渲染DOM，如果存在`{{else}}`则执行`{{else}}`后面的渲染 例如：
+`{{#if}}`就和使用JavaScript一样，你可以指定条件渲染DOM，如果它的参数返回`false`，`undefined`, `null`, `""` 或者 `[]` (一个错误的值), Handlebar将不会渲染DOM，如果存在`{{else}}`则执行`{{else}}`后面的渲染 例如：
 
 	{{#if list}}
 		<ul id="list">
